@@ -2,6 +2,18 @@
 
 import { useState, useEffect } from 'react';
 
+// Generate stars outside component to satisfy purity rules
+const generateStars = () => 
+  Array.from({ length: 50 }, () => ({
+    width: Math.random() * 3,
+    height: Math.random() * 3,
+    top: Math.random() * 100,
+    left: Math.random() * 100,
+    duration: Math.random() * 3 + 2
+  }));
+
+const stars = generateStars();
+
 export default function Home() {
   const [score, setScore] = useState(0);
   const [showInsertCoin, setShowInsertCoin] = useState(true);
@@ -17,16 +29,16 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-[#0a0014] via-[#1a0a2e] to-[#0a0014] overflow-hidden">
       {/* Starfield background effect */}
       <div className="fixed inset-0 opacity-30">
-        {[...Array(50)].map((_, i) => (
+        {stars.map((star, i) => (
           <div
             key={i}
             className="absolute bg-white rounded-full"
             style={{
-              width: Math.random() * 3 + 'px',
-              height: Math.random() * 3 + 'px',
-              top: Math.random() * 100 + '%',
-              left: Math.random() * 100 + '%',
-              animation: `twinkle ${Math.random() * 3 + 2}s infinite`
+              width: star.width + 'px',
+              height: star.height + 'px',
+              top: star.top + '%',
+              left: star.left + '%',
+              animation: `twinkle ${star.duration}s infinite`
             }}
           />
         ))}
